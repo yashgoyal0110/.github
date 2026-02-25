@@ -9,6 +9,10 @@ jobs:
   detect-conflicts:
     name: Check Open PRs for Conflicts
     runs-on: ubuntu-latest
+    permissions:  
+      contents: read  
+      pull-requests: read  
+      checks: write  
 
     steps:
       - name: Checkout repository
@@ -21,6 +25,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
+          
           gh pr list \
             --base "${{ github.ref_name }}" \
             --state open \
